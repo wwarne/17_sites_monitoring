@@ -1,6 +1,8 @@
 import requests
+import whois
 
 from urllib.parse import urlparse, urlunparse
+from dateutil.parser import parse
 
 
 def load_urls4check(path):
@@ -15,8 +17,15 @@ def is_server_respond_with_200(url):
     return resp.status_code == 200
 
 
-def get_domain_expiration_date(domain_name):
-    pass
+def fetch_domain_expiration_date(domain_name):
+    try:
+        w = whois.whois(domain_name)
+    except whois.parser.PywhoisError:
+        return None
+    expiration_date = w.expiration_date
+    if isinstance(expiration_date, (tuple, list)):
+        expiration_date = expiration_date[0]
+    return expiration_date
 
 
 def sanitize_address(url):
