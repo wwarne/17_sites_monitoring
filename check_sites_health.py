@@ -85,7 +85,7 @@ def pretty_format(domain_obj):
     respond = bool2human(domain_obj.is_respond_200)
     expire = bool2human(domain_obj.is_expire)
     expire_date = date2string(domain_obj.expire_date)
-    return '{:<30}{:<15}{:<15}{:<15}'.format(url, respond, expire, expire_date)
+    return '{:<30}|{:^10}|{:^10}|{:^15}'.format(url, respond, expire, expire_date)
 
 
 if __name__ == '__main__':
@@ -95,7 +95,8 @@ if __name__ == '__main__':
 
     websites = load_urls4check(parameters.path)
     print('Today is: {}'.format(date2string(datetime.now())))
-    print('{:<30}{:<15}{:<15}{:<15}'.format('Domain', 'Working', 'Expiring', 'Expire date'))
+    print('{:<30}|{:^10}|{:^10}|{:^15}'.format('Domain', 'Working', 'Expiring', 'Expire date'))
     for website in websites:
+        print('{:-<75}'.format(''))
         site_info = collect_domain_info(website)
         print(pretty_format(site_info))
