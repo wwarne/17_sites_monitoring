@@ -81,11 +81,10 @@ def date2string(value):
 def pretty_format(domain_obj):
     if not isinstance(domain_obj, Domain):
         return
-    url = domain_obj.url
-    respond = bool2human(domain_obj.is_respond_200)
-    expire = bool2human(domain_obj.is_expire)
-    expire_date = date2string(domain_obj.expire_date)
-    return '{:<30}|{:^10}|{:^10}|{:^15}'.format(url, respond, expire, expire_date)
+    return '{:<30}|{:^10}|{:^10}|{:^15}'.format(domain_obj.url,
+                                                bool2human(domain_obj.is_respond_200),
+                                                bool2human(domain_obj.is_expire),
+                                                date2string(domain_obj.expire_date))
 
 
 if __name__ == '__main__':
