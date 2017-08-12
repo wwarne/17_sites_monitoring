@@ -94,6 +94,7 @@ if __name__ == '__main__':
     parameters = parser.parse_args()
 
     websites = load_urls4check(parameters.path)
+    print('Today is: {}'.format(date2string(datetime.now())))
     print('{:<30}{:<15}{:<15}{:<15}'.format('Domain', 'Working', 'Expiring', 'Expire date'))
     for website in websites:
         site_info = collect_domain_info(website)
