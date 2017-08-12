@@ -1,10 +1,11 @@
+from collections import namedtuple
+from datetime import datetime, timedelta
+from urllib.parse import urlparse, urlunparse
+
+import argparse
 import requests
 import whois
-from urllib.parse import urlparse, urlunparse
 from dateutil.parser import parse
-from datetime import datetime, timedelta
-from collections import namedtuple
-
 
 Domain = namedtuple('Domain', ['url', 'is_respond_200', 'is_expire', 'expire_date'])
 
@@ -88,7 +89,11 @@ def pretty_format(domain_obj):
 
 
 if __name__ == '__main__':
-    websites = load_urls4check('test.txt')
+    parser = argparse.ArgumentParser(description='Sites Monitoring Utility')
+    parser.add_argument('path', help='Path to a file with a list of websites to check.')
+    parameters = parser.parse_args()
+
+    websites = load_urls4check(parameters.path)
     print('{:<30}{:<15}{:<15}{:<15}'.format('Domain', 'Working', 'Expiring', 'Expire date'))
     for website in websites:
         site_info = collect_domain_info(website)
