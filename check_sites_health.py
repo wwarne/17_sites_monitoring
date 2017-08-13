@@ -24,12 +24,12 @@ def sanitize_address(url):
 
 def get_domain_expiration_date(domain_name):
     try:
-        w = whois.whois(domain_name)
+        whois_information = whois.whois(domain_name)
     except whois.parser.PywhoisError:
         return
-    if isinstance(w.expiration_date, (tuple, list)):
-        return w.expiration_date[0]
-    return w.expiration_date
+    if isinstance(whois_information.expiration_date, (tuple, list)):
+        return whois_information.expiration_date[0]
+    return whois_information.expiration_date
 
 
 def is_server_respond_with_200(url):
@@ -37,7 +37,7 @@ def is_server_respond_with_200(url):
         resp = requests.get(url, allow_redirects=True)
     except requests.exceptions.RequestException:
         return False
-    return resp.status_code == 200
+    return resp.ok
 
 
 def is_expire_in_month(expire_date):
@@ -61,21 +61,21 @@ def collect_domain_info(url):
                   expire_date=expire_date)
 
 
-def bool2human(value):
-    if value is None:
+def bool2human(value_to_convert):
+    if value_to_convert is None:
         return 'N/A'
-    elif value:
+    elif value_to_convert:
         return 'YES'
     else:
         return 'NO'
 
 
-def date2string(value):
-    if value is None:
+def date2string(date_to_convert):
+    if date_to_convert is None:
         return 'N/A'
-    if not isinstance(value, datetime):
-        return str(value)
-    return value.strftime('%d.%m.%Y %H:%M:%S')
+    if not isinstance(date_to_convert, datetime):
+        return str(date_to_convert)
+    return date_to_convert.strftime('%d.%m.%Y %H:%M:%S')
 
 
 def pretty_format(domain_obj):
